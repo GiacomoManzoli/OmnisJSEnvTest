@@ -37,20 +37,22 @@ function printList(elem, list) {
 
 function checkClass() {
     try {
-        class X {
-            constructor(x) {
-                this.x = x;
-            }
-            method() {
-                return this.x;
-            }
-        }
-        var x = new X(2);
-        x.method();
+        var stmt ="\
+        class X {\
+            constructor(x) {\
+                this.x = x;\
+            }\
+            method() {\
+                return this.x;\
+            }\
+        }\
+        var x = new X(2);\
+        x.method();";
+        eval(stmt);
+        addFeature("class");    
     } catch (error) {
-        addError("Class");
+        addError("class");
     }
-    addFeature("Class");
 }
 
 function checkArray() {
