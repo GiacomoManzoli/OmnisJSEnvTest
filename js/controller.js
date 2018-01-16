@@ -34,7 +34,6 @@ function printList(elem, list) {
     }
 }
 
-
 function checkClass() {
     try {
         var stmt ="\
@@ -52,6 +51,52 @@ function checkClass() {
         addFeature("class");    
     } catch (error) {
         addError("class");
+    }
+}
+
+function checkStatic() {
+    try {
+        var stmt ="\
+        class Triplica {\
+            static triplica(n) {\
+              n = n | 1;\
+              return n * 3;\
+            }\
+          }\
+          console.log(Triplica.triplica()); // 3\
+          console.log(Triplica.triplica(6));  // 18\
+        ";
+        eval(stmt);
+        addFeature("static methods");    
+    } catch (error) {
+        addError("static methods");
+    }
+}
+
+function checkExtends() {
+    try {
+        var stmt ="\
+        class Triplica {\
+            static triplica(n) {\
+              n = n | 1;\
+              return n * 3;\
+            }\
+          }\
+          \
+          class TriplicaAncora extends Triplica {\
+            static triplica(n) {\
+              return super.triplica(n) * super.triplica(n);\
+            }\
+          }\
+          \
+          console.log(Triplica.triplica()); // 3\
+          console.log(Triplica.triplica(6));  // 18\
+          console.log(TriplicaAncora.triplica(3)); // 81\
+        ";
+        eval(stmt);
+        addFeature("Extends");    
+    } catch (error) {
+        addError("Extends");
     }
 }
 
@@ -78,6 +123,9 @@ function checkClasses() {
     typeof RegExp !== undefined ? addFeature("RegExp") : addError("RegExp");
     typeof Math !== undefined ? addFeature("Math") : addError("Math");
     typeof Number !== undefined ? addFeature("Number") : addError("Number");
+    typeof File !== undefined ? addFeature("File") : addError("File");
+    typeof FileReader !== undefined ? addFeature("FileReader") : addError("FileReader");
+    typeof Blob !== undefined ? addFeature("Blob") : addError("Blob");  
 }
 
 function checkDeclaration() {
@@ -111,6 +159,8 @@ function main() {
     printNavigatorInfo(browserInfo);
 
     checkClass();
+    checkExtends();
+    checkStatic();
     checkArray();
     checkClasses();
     checkDeclaration();
